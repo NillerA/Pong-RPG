@@ -30,7 +30,7 @@ class GameWorld:
                 background_b = BackgroundBuilder()
                 background_b.build()
                 self._game_objects.append(background_b.get_gameObject())
-                
+
                 button_b = StartButtonBuilder()
                 button_b.build(self.LevelOne)
                 self._game_objects.append(button_b.get_gameObject())
@@ -48,6 +48,10 @@ class GameWorld:
                 ball_b = BallBuilder()
                 ball_b.build()
                 self._game_objects.append(ball_b.get_gameObject()) 
+
+                enemy_b = EnemyBuilder()
+                enemy_b.build()
+                self._game_objects.append(enemy_b.get_gameObject())
             case 2:
                 pass
             case 3:

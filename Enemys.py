@@ -6,18 +6,16 @@ class BasicEnemy(Component):
 
     
 
-    def __init__(self) -> None:
+    def __init__(self, type) -> None:
         super().__init__()
         self.Dir = False
         self._curDir = "" 
         self._cooldown = 300
-        self.selfspeed = 1
+        self._speed = 2
+        self._timer = 0
     
-    def awake(self, game_world, pos, type):
-
+    def awake(self, game_world):
         self.Dir = bool(random.getrandbits(1))
-
-        self.gameobject.transform.position = pos
 
     def start(self):
         pass
@@ -29,11 +27,13 @@ class BasicEnemy(Component):
         else:
            self._curDir = "+"
 
-        self.gameobject.transform.position.Y += int(self._curDir) + self.speed
+        self.gameobject.transform.position[1] += self._speed * delt_time
 
-
-        if(delt_time.tick >= self._cooldown):
-          self.Dir = bool(random.getrandbits(1))
+        self._timer += delt_time
+        if(self._timer >= self._cooldown):
+            if random.getrandbits(1) == 0:
+                self._speed * -1
+                self._timer -= self._cooldown
         
 
     def draw(self, screen, res_multiplier, res_scaler):
