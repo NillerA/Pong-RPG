@@ -65,7 +65,9 @@ class PlayerBuilder(Builder):
 class EnemyBuilder(Builder):
     
     def build(self):
-        pass
+        self._gameObject = GameObject(pygame.math.Vector2(4.333,2.5))
+        self._gameObject.add_component(SpriteRenderer("Guy.png"))
+        self._gameObject.add_component(BasicEnemy())
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject
