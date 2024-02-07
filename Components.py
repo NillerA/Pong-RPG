@@ -64,7 +64,7 @@ class SpriteRenderer(Component):
     def __init__(self, sprite_name) -> None:
         super().__init__()
         self._sprite_name = sprite_name
-        self._sprite_image = pygame.image.load(f"Assets\\{sprite_name}")
+        self._sprite_image = pygame.image.load(f"Assets\\{sprite_name}").convert_alpha()
         self._sprite = pygame.sprite.Sprite()
         self._sprite.rect = self._sprite_image.get_rect()
         self._sprite_mask = pygame.mask.from_surface(self.sprite_image)
@@ -180,7 +180,6 @@ class Collider():
                 if other not in self._other_masks:
                     self.pixel_collision_enter(other, collision_mask)
                     other.pixel_collision_enter(self, collision_mask)
-               
             else:
                 if other in self._other_masks:
                     self.pixel_collision_exit(other)
@@ -189,6 +188,9 @@ class Collider():
             if is_already_colliding:
                 self.collision_exit(other)
                 other.collision_exit(self)
+            if other in self._other_masks:
+                self.pixel_collision_exit(other)
+                other.pixel_collision_exit(self)
 
 
     def check_pixel_collision(self, collision_box1, collision_box2, mask1, mask2):

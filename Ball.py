@@ -4,8 +4,8 @@ from Components import Component
 class Ball(Component):
     def __init__(self) -> None:
         super().__init__()
-        self._speed = pygame.math.Vector2(1,1)
-        self._right = True
+        self._speed = pygame.math.Vector2(10,5)
+        self._right = False
         self._up = True
 
         self.p1Owned = True
@@ -32,29 +32,37 @@ class Ball(Component):
             self.gameobject.transform.translate(pygame.math.Vector2(0, self._speed.y * delt_time))
         else:
             self.gameobject.transform.translate(pygame.math.Vector2(0, -self._speed.y * delt_time))
+        if self.gameobject.transform.position[1] <= 0.2:
+            self._up = True
+        elif self.gameobject.transform.position[1] >= 4.5:
+            self._up = False
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
 
     def on_collision_enter(self, other):
-        print("collision enter")
+        pass
 
     def on_collision_exit(self, other):
-        print("collision exit")
+        pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        print("pixel collision enter")
-        if(collision_mask[0] > collision_mask[1]):
-            self._up = not self._up
-        else:
-            self._right = not self._right
+        print(f"pixel collision enter with {other.gameobject.get_component("SpriteRenderer")._sprite_name}")
+        
 
-        if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Bluebar"):
+        if other.gameobject.get_component("SpriteRenderer")._sprite_name == "Blue bar.png":
+            self._right = True
             self.p1Owned = True
-        else:
+        elif other.gameobject.get_component("SpriteRenderer")._sprite_name == "Red bar.png":
+            self._right = False
             self.p1Owned = False
+        else:
+            if(collision_mask[0] > collision_mask[1]):
+                self._up = not self._up
+            else:
+                self._right = not self._right
 
         
 
     def on_pixel_collision_exit(self, other):
-        print("pixel collision exit")
+        print(f"pixel collision exit with {other.gameobject.get_component("SpriteRenderer")._sprite_name}")

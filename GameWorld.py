@@ -20,6 +20,7 @@ class GameWorld:
 
         self._running = True
         self._clock = pygame.time.Clock()
+        
 
     def LoadScene(self, scene_index):
         self._game_objects = []
@@ -39,15 +40,15 @@ class GameWorld:
                 background_b.build()
                 self._game_objects.append(background_b.get_gameObject())
 
+                ball_b = BallBuilder()
+                ball_b.build()
+                self._game_objects.append(ball_b.get_gameObject()) 
+
                 player_b = PlayerBuilder()
                 player_b.build(0)
                 self._game_objects.append(player_b.get_gameObject())
                 player_b.build(1)
                 self._game_objects.append(player_b.get_gameObject())
-
-                ball_b = BallBuilder()
-                ball_b.build()
-                self._game_objects.append(ball_b.get_gameObject()) 
 
                 enemy_b = EnemyBuilder()
                 enemy_b.build()
@@ -83,7 +84,7 @@ class GameWorld:
                     self._running = False
             self._screen.fill("cornflowerblue")
 
-            delta_time = self._clock.tick(60) / 1000
+            delta_time = self._clock.tick(120) / 1000
 
             for game_object in self._game_objects[:]:
                 game_object.update(delta_time)
@@ -95,9 +96,7 @@ class GameWorld:
 
             for game_object in self._game_objects[:]:
                 game_object.draw(self._screen, self._res_multiplier, self._res_scaler)
-            
             pygame.display.flip()
-            self._clock.tick(60)
         pygame.quit()
 
 gw = GameWorld()
