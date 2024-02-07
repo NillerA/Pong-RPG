@@ -63,6 +63,7 @@ class Transform(Component):
 class SpriteRenderer(Component):
     def __init__(self, sprite_name) -> None:
         super().__init__()
+        self._sprite_name = sprite_name
         self._sprite_image = pygame.image.load(f"Assets\\{sprite_name}")
         self._sprite = pygame.sprite.Sprite()
         self._sprite.rect = self._sprite_image.get_rect()

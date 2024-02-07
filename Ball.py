@@ -49,8 +49,8 @@ class Ball(Component):
         else:
             self._right = not self._right
 
-        if(other.sprite_name == "Bluebar"):
-          self.p1Owned = True
+        if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Bluebar"):
+            self.p1Owned = True
         else:
             self.p1Owned = False
 
