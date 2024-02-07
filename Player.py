@@ -4,7 +4,7 @@ from Components import Component
 class Player(Component):
     def __init__(self, playerNumber) -> None:
         super().__init__()
-        self._speed = 1
+        self._speed = 5
         self._player_number = playerNumber
 
     def awake(self, game_world):

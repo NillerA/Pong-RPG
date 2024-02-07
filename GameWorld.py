@@ -1,9 +1,10 @@
 import pygame
 from GameObject import GameObject
-from Components import SpriteRenderer
-from Components import Collider
-from Player import Player
-from Ball import Ball
+from Builder import StartButtonBuilder
+from Builder import BackgroundBuilder
+from Builder import PlayerBuilder
+from Builder import BallBuilder
+from Builder import EnemyBuilder
 
 class GameWorld:
 
@@ -15,29 +16,49 @@ class GameWorld:
         self._res_multiplier = self._screen.get_height() / 5
         self._res_scaler = self._screen.get_width() / 1920
 
-        go = GameObject(pygame.math.Vector2(0,0))
-        go.add_component(SpriteRenderer("Power Pong Background.png"))
-        self._game_objects.append(go)
+        self.LoadScene(0)
 
-        go = GameObject(pygame.math.Vector2(0,0))
-        go.add_component(Player(0))
-        go.add_component(SpriteRenderer("Blue bar.png"))
-        go.add_component(Collider())
-        self._game_objects.append(go)
-
-        go = GameObject(pygame.math.Vector2(0,0))
-        go.add_component(Player(1))
-        go.add_component(SpriteRenderer("Red bar.png"))
-        go.add_component(Collider())
-        self._game_objects.append(go)
-
-        go = GameObject(pygame.math.Vector2(2,3))
-        go.add_component(Ball())
-        go.add_component(SpriteRenderer("Ball.png"))
-        go.add_component(Collider())
-        self._game_objects.append(go)
         self._running = True
         self._clock = pygame.time.Clock()
+
+    def LoadScene(self, scene_index):
+        self._game_objects = []
+        self._colliders = []
+
+        match scene_index:
+            case 0:
+                background_b = BackgroundBuilder()
+                background_b.build()
+                self._game_objects.append(background_b.get_gameObject())
+                
+                button_b = StartButtonBuilder()
+                button_b.build(self.LevelOne)
+                self._game_objects.append(button_b.get_gameObject())
+            case 1:
+                background_b = BackgroundBuilder()
+                background_b.build()
+                self._game_objects.append(background_b.get_gameObject())
+
+                player_b = PlayerBuilder()
+                player_b.build(0)
+                self._game_objects.append(player_b.get_gameObject())
+                player_b.build(1)
+                self._game_objects.append(player_b.get_gameObject())
+
+                ball_b = BallBuilder()
+                ball_b.build()
+                self._game_objects.append(ball_b.get_gameObject()) 
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                pass
+        self.awake()
+        self.start()
+
+    def LevelOne(self):
+        self.LoadScene(1)
 
     def awake(self):
         for game_object in self._game_objects[:]:
