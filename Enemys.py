@@ -14,7 +14,7 @@ class BasicEnemy(Component):
         super().__init__()
     
     def awake(self, game_world, pos, type):
-        
+
         self.Dir = bool(random.getrandbits(1))
 
         self.gameobject.transform.position = pos
@@ -40,6 +40,9 @@ class BasicEnemy(Component):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
+        if(other.__name__ == "Ball"):
+          self.kill()
+
         if(collision_mask[0] > collision_mask[1]):
             self.Dir = not self.Dir
 
