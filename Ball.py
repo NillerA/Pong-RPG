@@ -8,6 +8,8 @@ class Ball(Component):
         self._right = True
         self._up = True
 
+        self.p1Owned = True
+
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
         collider.subscribe("collision_enter",self.on_collision_enter)
@@ -46,6 +48,13 @@ class Ball(Component):
             self._up = not self._up
         else:
             self._right = not self._right
+
+        if(other.sprite_name == "Bluebar"):
+          self.p1Owned = True
+        else:
+            self.p1Owned = False
+
+        
 
     def on_pixel_collision_exit(self, other):
         print("pixel collision exit")

@@ -4,14 +4,14 @@ import random
 
 class BasicEnemy(Component):
 
-    Dir = False
-    _curDir = "" 
-    _cooldown = 300
-    speed = 1
     
 
     def __init__(self) -> None:
         super().__init__()
+        self.Dir = False
+        self._curDir = "" 
+        self._cooldown = 300
+        self.selfspeed = 1
     
     def awake(self, game_world, pos, type):
 
@@ -40,7 +40,7 @@ class BasicEnemy(Component):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        if(other.__name__ == "Ball"):
+        if(other.sprite_name == "Ball"):
           self.kill()
 
         if(collision_mask[0] > collision_mask[1]):
