@@ -40,7 +40,7 @@ class BasicEnemy(Component):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        if(other.sprite_name == "Ball"):
+        if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball"):
           self.kill()
 
         if(collision_mask[0] > collision_mask[1]):
