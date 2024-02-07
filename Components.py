@@ -86,7 +86,7 @@ class SpriteRenderer(Component):
         return self._sprite
 
     def awake(self, game_world):
-        self._sprite.rect.topleft = self.gameobject.transform.position
+        self._sprite.rect.center = self.gameobject.transform.position
 
     def start(self):
         pass
@@ -95,54 +95,10 @@ class SpriteRenderer(Component):
         pass
 
     def draw(self, screen, res_multiplier, res_scaler):
-        self._sprite.rect.topleft = self.gameobject.transform.position * res_multiplier
-        scaled_image = pygame.transform.scale(self._sprite_image, (int(self._sprite_image.get_size()[0] * res_scaler), int(self._sprite_image.get_size()[1] * res_scaler)))
-        screen.blit(scaled_image, self._sprite.rect)
-
-class Animator(Component):
-
-    def __init__(self) -> None:
-        super().__init__()
-        self._animations = {}
-        self._current_animation = None
-        self._animation_time = 0
-        self._current_frame_index = 0
-
-    def add_animation(self, name, *args):
-        frames =[]
-        for arg in args:
-            sprite_image = pygame.image.load(f"Assets\\{arg}")
-            frames.append(sprite_image)
-        
-        self._animations[name] = frames
-    
-    def play_animation(self, animation):
-        self._current_animation = animation
-
-    def awake(self, game_world):
-        self._sprite_renderer = self._gameObject.get_component("SpriteRenderer")
-    
-    def start(self):
-        pass
-
-    def update(self, delta_time):
-        frame_duration = 0.1
-
-        self._animation_time += delta_time
-
-        #skal vi skifte frame
-        if self._animation_time >= frame_duration:
-            self._animation_time = 0
-            self._current_frame_index += 1
-            
-            #får vi fat på vores aimation
-            animation_sequence = self._animations[self._current_animation]
-
-            if self._current_frame_index >= len(animation_sequence):
-                self._current_frame_index = 0 #Resetter vores animation
-            
-            #Skifter til en ny sprite
-            self._sprite_renderer.sprite_image = animation_sequence[self._current_frame_index]
+        self.scaled_image = pygame.transform.scale(self._sprite_image, (int(self._sprite_image.get_size()[0] * res_scaler), int(self._sprite_image.get_size()[1] * res_scaler)))
+        self._sprite.rect = self.scaled_image.get_rect()
+        self._sprite.rect.center = self.gameobject.transform.position * res_multiplier
+        screen.blit(self.scaled_image, self._sprite.rect)
 
 class Collider():
     def __init__(self) -> None:
@@ -151,9 +107,9 @@ class Collider():
         self._listeners = {}
 
     def awake(self, game_world):
-        sr = self.gameobject.get_component("SpriteRenderer")
-        self._collision_box = sr.sprite.rect
-        self._sprite_mask = sr.sprite_mask
+        self._sr = self.gameobject.get_component("SpriteRenderer")
+        self._collision_box = self._sr.sprite.rect
+        self._sprite_mask = self._sr.sprite_mask
         game_world.colliders.append(self)
 
     @property
@@ -203,7 +159,7 @@ class Collider():
         pass
 
     def update(self, delta_time):
-        pass
+        self._collision_box = self._sr.sprite.rect
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass

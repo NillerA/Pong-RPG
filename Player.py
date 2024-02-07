@@ -21,15 +21,15 @@ class Player(Component):
         movement = pygame.math.Vector2(0,0)
         
         if(self._player_number == 0):
-            if keys[pygame.K_w] and self.gameobject.transform.position[1] >= 0.29:
+            if keys[pygame.K_w] and self.gameobject.transform.position[1] >= 0.7:
                 movement.y -= self._speed * delt_time
-            if keys[pygame.K_s] and self.gameobject.transform.position[1] <= 3.82:
+            if keys[pygame.K_s] and self.gameobject.transform.position[1] <= 4.3:
                 movement.y += self._speed * delt_time
 
         elif(self._player_number == 1):
-            if keys[pygame.K_UP] and self.gameobject.transform.position[1] >= 0.29:
+            if keys[pygame.K_UP] and self.gameobject.transform.position[1] >= 0.7:
                 movement.y -= self._speed * delt_time
-            if keys[pygame.K_DOWN] and self.gameobject.transform.position[1] <= 3.82:
+            if keys[pygame.K_DOWN] and self.gameobject.transform.position[1] <= 4.3:
                 movement.y += self._speed * delt_time
         self.gameobject.transform.translate(movement)
 

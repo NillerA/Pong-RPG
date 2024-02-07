@@ -4,7 +4,7 @@ from Components import Component
 class Ball(Component):
     def __init__(self) -> None:
         super().__init__()
-        self._speed = pygame.math.Vector2(10,5)
+        self._speed = pygame.math.Vector2(2,0)
         self._right = False
         self._up = True
 
@@ -32,9 +32,9 @@ class Ball(Component):
             self.gameobject.transform.translate(pygame.math.Vector2(0, self._speed.y * delt_time))
         else:
             self.gameobject.transform.translate(pygame.math.Vector2(0, -self._speed.y * delt_time))
-        if self.gameobject.transform.position[1] <= 0.2:
+        if self.gameobject.transform.position[1] <= 0.375:
             self._up = True
-        elif self.gameobject.transform.position[1] >= 4.5:
+        elif self.gameobject.transform.position[1] >= 4.625:
             self._up = False
 
     def draw(self, screen, res_multiplier, res_scaler):
@@ -52,15 +52,19 @@ class Ball(Component):
 
         if other.gameobject.get_component("SpriteRenderer")._sprite_name == "Blue bar.png":
             self._right = True
+            self._speed[1] = other.gameobject.transform.position.distance_to(self.gameobject.transform.position) * 10
             self.p1Owned = True
+            self._up = other.gameobject.transform.position[1] - self.gameobject.transform.position[1] < 0
         elif other.gameobject.get_component("SpriteRenderer")._sprite_name == "Red bar.png":
             self._right = False
+            self._speed[1] = other.gameobject.transform.position.distance_to(self.gameobject.transform.position) * 10
             self.p1Owned = False
+            self._up = other.gameobject.transform.position[1] - self.gameobject.transform.position[1] < 0
         else:
             if(collision_mask[0] > collision_mask[1]):
-                self._up = not self._up
-            else:
                 self._right = not self._right
+            else:
+                self._up = not self._up
 
         
 

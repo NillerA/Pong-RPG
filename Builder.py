@@ -21,7 +21,7 @@ class Builder(ABC):
 class StartButtonBuilder(Builder):
 
     def build(self, callback):
-        self._gameObject = GameObject(pygame.math.Vector2(4,2))
+        self._gameObject = GameObject(pygame.math.Vector2(4.3333,2.5))
         self._gameObject.add_component(SpriteRenderer("Level.png"))
         self._gameObject.add_component(Button(callback))
 
@@ -31,7 +31,7 @@ class StartButtonBuilder(Builder):
 class BackgroundBuilder(Builder):
     
     def build(self):
-        self._gameObject = GameObject(pygame.math.Vector2(0,0))
+        self._gameObject = GameObject(pygame.math.Vector2(4.3333,2.5))
         self._gameObject.add_component(SpriteRenderer("Power Pong Background.png"))
 
     def get_gameObject(self) -> GameObject:
