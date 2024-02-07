@@ -29,7 +29,7 @@ class BasicEnemy(Component):
         else:
            self._curDir = "+"
 
-        self.transform.position.Y += int(self._curDir) + self.speed
+        self.gameobject.transform.position.Y += int(self._curDir) + self.speed
 
 
         if(delt_time.tick >= self._cooldown):
