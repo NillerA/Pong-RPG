@@ -61,42 +61,42 @@ class GameWorld:
                 pygame.mixer.music.play(-1)
 
                 button_b = ButtonBuilder()
-                button_b.build("Level.png", pygame.math.Vector2(2.944,2.5), self.LevelOne)
+                button_b.build("Level.png", pygame.math.Vector2(2.944,2.5), self.LevelOne, True)
                 self._game_objects.append(button_b.get_gameObject())
 
                 if self._one:
                     button_b = ButtonBuilder()
-                    button_b.build("Level.png", pygame.math.Vector2(3.944,2.5), self.LevelTwo)
+                    button_b.build("Level.png", pygame.math.Vector2(3.944,2.5), self.LevelTwo, True)
                     self._game_objects.append(button_b.get_gameObject())
                 else:
                     button_b = ButtonBuilder()
-                    button_b.build("Level Locked.png", pygame.math.Vector2(3.944,2.5), self.NotUnlocked)
+                    button_b.build("Level Locked.png", pygame.math.Vector2(3.944,2.5), self.NotUnlocked, False)
                     self._game_objects.append(button_b.get_gameObject())
 
                 if self._two:
                     button_b = ButtonBuilder()
-                    button_b.build("Level.png", pygame.math.Vector2(4.944,2.5), self.LevelThree)
+                    button_b.build("Level.png", pygame.math.Vector2(4.944,2.5), self.LevelThree, True)
                     self._game_objects.append(button_b.get_gameObject())
                 else:
                     button_b = ButtonBuilder()
-                    button_b.build("Level Locked.png", pygame.math.Vector2(4.944,2.5), self.NotUnlocked)
+                    button_b.build("Level Locked.png", pygame.math.Vector2(4.944,2.5), self.NotUnlocked, False)
                     self._game_objects.append(button_b.get_gameObject())
 
                 if self._three:
                     button_b = ButtonBuilder()
-                    button_b.build("Level.png", pygame.math.Vector2(5.944,2.5), self.LevelFour)
+                    button_b.build("Level.png", pygame.math.Vector2(5.944,2.5), self.LevelFour, True)
                     self._game_objects.append(button_b.get_gameObject())
                 else:
                     button_b = ButtonBuilder()
-                    button_b.build("Level Locked.png", pygame.math.Vector2(5.944,2.5), self.NotUnlocked)
+                    button_b.build("Level Locked.png", pygame.math.Vector2(5.944,2.5), self.NotUnlocked, False)
                     self._game_objects.append(button_b.get_gameObject())
 
                 button_b = ButtonBuilder()
-                button_b.build("Options Knap.png", pygame.math.Vector2(0.4,0.6), self.Options)
+                button_b.build("Options Knap.png", pygame.math.Vector2(0.4,0.6), self.Options, True)
                 self._game_objects.append(button_b.get_gameObject())
 
                 button_b = ButtonBuilder()
-                button_b.build("Exit Knap2.png", pygame.math.Vector2(4.444,3.5), self.QuitGame)
+                button_b.build("Exit Knap2.png", pygame.math.Vector2(4.444,3.5), self.QuitGame, True)
                 self._game_objects.append(button_b.get_gameObject())
 
                 p_in = ImageBuilder()
@@ -120,7 +120,7 @@ class GameWorld:
                 self._game_objects.append(panel.get_gameObject())
 
                 menu_btn = ButtonBuilder()
-                menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+                menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu, True)
                 self._game_objects.append(menu_btn.get_gameObject())
             case 2:
                 enemy_b = EnemyBuilder()
@@ -279,7 +279,7 @@ class GameWorld:
         self._game_objects.append(win_text.get_gameObject())
 
         menu_btn = ButtonBuilder()
-        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu, True)
         self._game_objects.append(menu_btn.get_gameObject())
     
     def Win(self):
@@ -304,7 +304,7 @@ class GameWorld:
         self._game_objects.append(win_text.get_gameObject())
 
         menu_btn = ButtonBuilder()
-        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu, True)
         self._game_objects.append(menu_btn.get_gameObject())
 
     def Options(self):

@@ -5,7 +5,7 @@ class Ball(Component):
     def __init__(self, lose_callback) -> None:
         super().__init__()
         self._speed = pygame.math.Vector2(0,0)
-        self._right = False
+        self._right = True
         self._up = True
         self._lose_callback = lose_callback
         self.p1Owned = True

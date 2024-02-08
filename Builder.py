@@ -20,10 +20,10 @@ class Builder(ABC):
 
 class ButtonBuilder(Builder):
 
-    def build(self, image_name, position, callback):
+    def build(self, image_name, position, callback, good):
         self._gameObject = GameObject(position)
         self._gameObject.add_component(SpriteRenderer(image_name))
-        self._gameObject.add_component(Button(callback))
+        self._gameObject.add_component(Button(callback, good))
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject
@@ -39,7 +39,7 @@ class ImageBuilder(Builder):
 
 class BallBuilder(Builder):
     def build(self, lose_callback):
-        self._gameObject = GameObject(pygame.math.Vector2(2,2.5))
+        self._gameObject = GameObject(pygame.math.Vector2(6.88,2.5))
         self._gameObject.add_component(Ball(lose_callback))
         self._gameObject.add_component(SpriteRenderer("Ball.png"))
         self._gameObject.add_component(Collider())

@@ -36,7 +36,6 @@ class BasicEnemy(Component):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        print(other.gameobject.get_component("SpriteRenderer")._sprite_name)
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
           self._death_sound.play()
           self.gameobject.destroy()
