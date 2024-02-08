@@ -54,7 +54,11 @@ class GameWorld:
                 self._game_objects.append(player_b.get_gameObject())
 
                 enemy_b = EnemyBuilder()
-                enemy_b.build()
+                enemy_b.build(pygame.math.Vector2(4.333,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.333,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.333,4))
                 self._game_objects.append(enemy_b.get_gameObject())
             case 2:
                 pass
@@ -85,14 +89,15 @@ class GameWorld:
 
     def update(self):
         while self._running:
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     self._running = False
 
-            delta_time = self._clock.tick(120) / 1000
+            delta_time = self._clock.tick() / 1000
 
             for game_object in self._game_objects[:]:
-                game_object.update(delta_time)
+                game_object.update(delta_time, events)
 
             for i, collider1 in enumerate(self._colliders):
                 for j in range(i + 1, len(self._colliders)):
@@ -102,6 +107,7 @@ class GameWorld:
             for game_object in self._game_objects[:]:
                 game_object.draw(self._screen, self._res_multiplier, self._res_scaler)
             
+            self._colliders = [obj for obj in self._colliders if not obj.gameobject.is_destroyed]
             self._game_objects = [obj for obj in self._game_objects if not obj.is_destroyed]
             
             pygame.display.flip()

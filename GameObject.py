@@ -36,9 +36,9 @@ class GameObject:
         for Component in self._components.values():
             Component.start()
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         for Component in self._components.values():
-            Component.update(delt_time)
+            Component.update(delt_time, events)
 
     def draw(self, screen, res_multiplier, res_scaler):
         for Component in self._components.values():

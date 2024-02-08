@@ -19,7 +19,7 @@ class BasicEnemy(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         self.gameobject.transform.position[1] += self._speed * delt_time
         self._timer += delt_time
 

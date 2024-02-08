@@ -16,7 +16,7 @@ class Player(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         keys = pygame.key.get_pressed()
         movement = pygame.math.Vector2(0,0)
         

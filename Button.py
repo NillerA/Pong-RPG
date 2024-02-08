@@ -13,9 +13,7 @@ class Button(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
-        events = pygame.event.get()
-
+    def update(self, delt_time, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP:
                 if self.gameobject.get_component("SpriteRenderer")._sprite.rect.collidepoint(event.pos):

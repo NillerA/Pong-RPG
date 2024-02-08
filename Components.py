@@ -24,7 +24,7 @@ class Component(ABC):
         pass
 
     @abstractmethod
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         pass
 
     @abstractmethod
@@ -54,7 +54,7 @@ class Transform(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         pass
 
     def draw(self, screen, res_multiplier, res_scaler):
@@ -91,7 +91,7 @@ class SpriteRenderer(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         pass
 
     def draw(self, screen, res_multiplier, res_scaler):
@@ -158,7 +158,7 @@ class Collider():
     def start(self):
         pass
 
-    def update(self, delta_time):
+    def update(self, delta_time, events):
         self._collision_box = self._sr.sprite.rect
 
     def draw(self, screen, res_multiplier, res_scaler):

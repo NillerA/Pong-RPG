@@ -4,7 +4,7 @@ from Components import Component
 class Ball(Component):
     def __init__(self) -> None:
         super().__init__()
-        self._speed = pygame.math.Vector2(2,0)
+        self._speed = pygame.math.Vector2(0,0)
         self._right = False
         self._up = True
 
@@ -20,9 +20,10 @@ class Ball(Component):
     def start(self):
         pass
 
-    def update(self, delt_time):
+    def update(self, delt_time, events):
         keys = pygame.key.get_pressed()
-        movement = pygame.math.Vector2(0,0)
+        if keys[pygame.K_SPACE]:
+            self._speed = pygame.math.Vector2(2,0)
         
         if(self._right):
             self.gameobject.transform.translate(pygame.math.Vector2(self._speed.x * delt_time, 0))
