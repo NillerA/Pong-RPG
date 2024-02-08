@@ -9,6 +9,8 @@ class Ball(Component):
         self._up = True
         self._lose_callback = lose_callback
         self.p1Owned = True
+        self._ball_hit_sound = pygame.mixer.Sound("Assets//Ball Hit.mp3")
+        self._lose_sound = pygame.mixer.Sound("Assets//Lose.mp3")
 
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -40,6 +42,7 @@ class Ball(Component):
         
         if self.gameobject.transform.position[0] <= 0 or self.gameobject.transform.position[0] >= 8.8:
             self._lose_callback()
+            self._lose_sound.play()
             self.gameobject.destroy()
 
     def draw(self, screen, res_multiplier, res_scaler):
@@ -57,11 +60,13 @@ class Ball(Component):
             self._speed[1] = other.gameobject.transform.position.distance_to(self.gameobject.transform.position) * 10
             self.p1Owned = True
             self._up = other.gameobject.transform.position[1] - self.gameobject.transform.position[1] < 0
+            self._ball_hit_sound.play()
         elif other.gameobject.get_component("SpriteRenderer")._sprite_name == "Red bar.png":
             self._right = False
             self._speed[1] = other.gameobject.transform.position.distance_to(self.gameobject.transform.position) * 10
             self.p1Owned = False
             self._up = other.gameobject.transform.position[1] - self.gameobject.transform.position[1] < 0
+            self._ball_hit_sound.play()
         else:
             if(collision_mask[0] > collision_mask[1]):
                 self._right = not self._right
