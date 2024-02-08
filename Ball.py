@@ -2,12 +2,12 @@ import pygame
 from Components import Component
 
 class Ball(Component):
-    def __init__(self) -> None:
+    def __init__(self, lose_callback) -> None:
         super().__init__()
         self._speed = pygame.math.Vector2(0,0)
         self._right = False
         self._up = True
-
+        self._lose_callback = lose_callback
         self.p1Owned = True
 
     def awake(self, game_world):
@@ -37,6 +37,10 @@ class Ball(Component):
             self._up = True
         elif self.gameobject.transform.position[1] >= 4.625:
             self._up = False
+        
+        if self.gameobject.transform.position[0] <= 0 or self.gameobject.transform.position[0] >= 8.8:
+            self._lose_callback()
+            self.gameobject.destroy()
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass

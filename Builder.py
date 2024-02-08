@@ -38,9 +38,9 @@ class ImageBuilder(Builder):
         return self._gameObject
 
 class BallBuilder(Builder):
-    def build(self):
+    def build(self, lose_callback):
         self._gameObject = GameObject(pygame.math.Vector2(2,2.5))
-        self._gameObject.add_component(Ball())
+        self._gameObject.add_component(Ball(lose_callback))
         self._gameObject.add_component(SpriteRenderer("Ball.png"))
         self._gameObject.add_component(Collider())
 

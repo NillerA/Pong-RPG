@@ -67,12 +67,15 @@ class ShieldEnemy(Component):
                 self._speed *= -1
                 self._timer -= self._cooldown
         
+        #turn shield to other side randomly 
+        
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
         print(other.gameobject.get_component("SpriteRenderer")._sprite_name)
+        #dont die if hit on shield
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
           self.gameobject.destroy()
 
