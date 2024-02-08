@@ -18,21 +18,21 @@ class Builder(ABC):
     def get_gameObject(self) -> GameObject:
         pass
 
-class StartButtonBuilder(Builder):
+class ButtonBuilder(Builder):
 
-    def build(self, callback):
-        self._gameObject = GameObject(pygame.math.Vector2(4.3333,2.5))
-        self._gameObject.add_component(SpriteRenderer("Level.png"))
+    def build(self, image_name, position, callback):
+        self._gameObject = GameObject(position)
+        self._gameObject.add_component(SpriteRenderer(image_name))
         self._gameObject.add_component(Button(callback))
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject
 
-class BackgroundBuilder(Builder):
+class ImageBuilder(Builder):
     
-    def build(self):
-        self._gameObject = GameObject(pygame.math.Vector2(4.3333,2.5))
-        self._gameObject.add_component(SpriteRenderer("Power Pong Background.png"))
+    def build(self, image_name, position):
+        self._gameObject = GameObject(position)
+        self._gameObject.add_component(SpriteRenderer(image_name))
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject

@@ -1,7 +1,7 @@
 import pygame
 from GameObject import GameObject
-from Builder import StartButtonBuilder
-from Builder import BackgroundBuilder
+from Builder import ButtonBuilder
+from Builder import ImageBuilder
 from Builder import PlayerBuilder
 from Builder import BallBuilder
 from Builder import EnemyBuilder
@@ -28,21 +28,17 @@ class GameWorld:
         self._game_objects = []
         self._colliders = []
         self._should_load_scene = False
+
+        background_b = ImageBuilder()
+        background_b.build("Power Pong Background.png", pygame.math.Vector2(4.3333,2.5))
+        self._game_objects.append(background_b.get_gameObject())
         
         match scene_index:
             case 0:
-                background_b = BackgroundBuilder()
-                background_b.build()
-                self._game_objects.append(background_b.get_gameObject())
-
-                button_b = StartButtonBuilder()
-                button_b.build(self.LevelOne)
+                button_b = ButtonBuilder()
+                button_b.build("Level.png", pygame.math.Vector2(4.3333,2.5), self.LevelOne)
                 self._game_objects.append(button_b.get_gameObject())
             case 1:
-                background_b = BackgroundBuilder()
-                background_b.build()
-                self._game_objects.append(background_b.get_gameObject())
-
                 ball_b = BallBuilder()
                 ball_b.build()
                 self._game_objects.append(ball_b.get_gameObject()) 
