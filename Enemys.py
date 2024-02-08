@@ -5,7 +5,7 @@ import random
 class BasicEnemy(Component):
     def __init__(self, type) -> None:
         super().__init__()
-        self._cooldown = 300
+        self._cooldown = 8
         self._speed = -2
         self._timer = 0
         self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
@@ -27,8 +27,7 @@ class BasicEnemy(Component):
             self._speed *= -1
         
         if(self._timer >= self._cooldown):
-            if random.getrandbits(1) == 0:
-                self._speed *= -1
+                self._speed *= random.choice([-1, 1])
                 self._timer -= self._cooldown
         
 
@@ -44,9 +43,11 @@ class BasicEnemy(Component):
 class ShieldEnemy(Component):
     def __init__(self, type) -> None:
         super().__init__()
-        self._cooldown = 300
+        self._cooldown = 5
         self._speed = -2
         self._timer = 0
+        self._type = type
+        self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
     
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -65,28 +66,37 @@ class ShieldEnemy(Component):
             self._speed *= -1
         
         if(self._timer >= self._cooldown):
-            if random.getrandbits(1) == 0:
-                self._speed *= -1
-                self._timer -= self._cooldown
-        
-        #turn shield to other side randomly 
-        
+            self._type = random.choice(["Left","Right"])
+            self._speed *= random.choice([1,-1])
+            self._timer -= self._cooldown
+            self.ChangeType()
+    
+    def ChangeType(self):
+        sprite_renderer = self.gameobject.get_component("SpriteRenderer")
+        sprite_name = f"Guy Shield{self._type}.png"
+        sprite_renderer.set_sprite(sprite_name)
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        print(other.gameobject.get_component("SpriteRenderer")._sprite_name)
-        #dont die if hit on shield
-        if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
-          self.gameobject.destroy()
+        if other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png":
+            ball_position = other.gameobject.transform.position[0]
+
+            print(f"enemy was{self._type}")
+
+            if self._type == "Left" and self.gameobject.transform.position[0] < ball_position or self._type == "Right" and self.gameobject.transform.position[0] > ball_position:
+                self._death_sound.play()
+                self.gameobject.destroy()
 
 class BossEnemy(Component):
     def __init__(self, type) -> None:
         super().__init__()
-        self._cooldown = 300
-        self._speed = -2
+        self._cooldown = 3
+        self._speed = 1
         self._timer = 0
+        self._life = 4
+        self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
     
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -105,15 +115,18 @@ class BossEnemy(Component):
             self._speed *= -1
         
         if(self._timer >= self._cooldown):
-            if random.getrandbits(1) == 0:
-                self._speed *= -1
+                self._speed *= random.choice([-1, 1])
                 self._timer -= self._cooldown
+
+        if self._life <= 0:
+            self.gameobject.destroy()
         
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        print(other.gameobject.get_component("SpriteRenderer")._sprite_name)
+       
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
-          self.gameobject.destroy()
+          self._death_sound.play()
+          self._life -= 1

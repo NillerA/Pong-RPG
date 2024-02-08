@@ -67,15 +67,10 @@ class GameWorld:
                 self._game_objects.append(player_b.get_gameObject())
 
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(4.333,2.5))
+                enemy_b.build(pygame.math.Vector2(4.333,2.5), "Boss")
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.333,1))
-                self._game_objects.append(enemy_b.get_gameObject())
-                self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.333,4))
-                self._game_objects.append(enemy_b.get_gameObject())
-                self._enemies.append(enemy_b.get_gameObject())
+
             case 2:
                 pass
             case 3:
