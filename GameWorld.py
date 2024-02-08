@@ -38,14 +38,15 @@ class GameWorld:
         background_b = ImageBuilder()
         background_b.build("Power Pong Background.png", pygame.math.Vector2(4.444,2.5))
         self._game_objects.append(background_b.get_gameObject())
-        if self._load_scene > 0:
+        if self._load_scene > 1:
             if not self._playing:
                 pygame.mixer.music.load("assets//In Game.wav")
                 pygame.mixer.music.play(-1)
             self._playing = True
             ball_b = BallBuilder()
             ball_b.build(self.Lose)
-            self._game_objects.append(ball_b.get_gameObject()) 
+            self._ball = ball_b.get_gameObject()
+            self._game_objects.append(self._ball) 
 
             player_b = PlayerBuilder()
             player_b.build(0)
@@ -114,6 +115,14 @@ class GameWorld:
                 player_b.build(1)
                 self._game_objects.append(player_b.get_gameObject())
             case 1:
+                panel = ImageBuilder()
+                panel.build("Panel.png", pygame.math.Vector2(4.444,2.5))
+                self._game_objects.append(panel.get_gameObject())
+
+                menu_btn = ButtonBuilder()
+                menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+                self._game_objects.append(menu_btn.get_gameObject())
+            case 2:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(4.444,2.5))
                 self._game_objects.append(enemy_b.get_gameObject())
@@ -124,7 +133,7 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(4.444,4))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-            case 2:
+            case 3:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(3.444,2.5))
                 self._game_objects.append(enemy_b.get_gameObject())
@@ -135,7 +144,7 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(5.444,4))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-            case 3:
+            case 4:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(4.444,2.5))
                 self._game_objects.append(enemy_b.get_gameObject())
@@ -152,7 +161,7 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(4.444,4))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-            case 4:
+            case 5:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(4.444,2.5))
                 self._game_objects.append(enemy_b.get_gameObject())
@@ -235,44 +244,72 @@ class GameWorld:
                 self.LoadScene(self._load_scene)
         pygame.quit()
 
-    
-    def LevelOne(self):
+    def Menu(self):
         self._should_load_scene = True
-        self._load_scene = 1
-    
-    def LevelTwo(self):
+        self._load_scene = 0
+
+    def LevelOne(self):
         self._should_load_scene = True
         self._load_scene = 2
     
-    def LevelThree(self):
+    def LevelTwo(self):
         self._should_load_scene = True
         self._load_scene = 3
     
-    def LevelFour(self):
+    def LevelThree(self):
         self._should_load_scene = True
         self._load_scene = 4
+    
+    def LevelFour(self):
+        self._should_load_scene = True
+        self._load_scene = 5
 
     def NotUnlocked(self):
         pass
 
     def Lose(self):
-        self._should_load_scene = True
+        self._ball.destroy()
+
+        panel = ImageBuilder()
+        panel.build("Panel.png", pygame.math.Vector2(4.444,2.5))
+        self._game_objects.append(panel.get_gameObject())
+
+        win_text = ImageBuilder()
+        win_text.build("YOU LOST.png", pygame.math.Vector2(4.444,2.25))
+        self._game_objects.append(win_text.get_gameObject())
+
+        menu_btn = ButtonBuilder()
+        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+        self._game_objects.append(menu_btn.get_gameObject())
     
     def Win(self):
         match self._load_scene:
-            case 1:
-                self._one = True
             case 2:
-                self._two = True
+                self._one = True
             case 3:
-                self._three = True
+                self._two = True
             case 4:
+                self._three = True
+            case 5:
                 self._four = True
-        self._should_load_scene = True
-        self._load_scene = 0
+        
+        self._ball.destroy()
+
+        panel = ImageBuilder()
+        panel.build("Panel.png", pygame.math.Vector2(4.444,2.5))
+        self._game_objects.append(panel.get_gameObject())
+
+        win_text = ImageBuilder()
+        win_text.build("YOU WIN.png", pygame.math.Vector2(4.444,2.25))
+        self._game_objects.append(win_text.get_gameObject())
+
+        menu_btn = ButtonBuilder()
+        menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu)
+        self._game_objects.append(menu_btn.get_gameObject())
 
     def Options(self):
-        print("implement")
+        self._should_load_scene = True
+        self._load_scene = 1
     
     def QuitGame(self):
         self._running = False
