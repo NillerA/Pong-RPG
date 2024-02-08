@@ -73,7 +73,5 @@ class Ball(Component):
             else:
                 self._up = not self._up
 
-        
-
     def on_pixel_collision_exit(self, other):
         pass
