@@ -9,9 +9,9 @@ class Player(Component):
 
     def awake(self, game_world):
         if(self._player_number == 0):
-            self.gameobject.transform.position = pygame.math.Vector2(1,2)
+            self.gameobject.transform.position = pygame.math.Vector2(1,2.5)
         elif(self._player_number == 1):
-            self.gameobject.transform.position = pygame.math.Vector2(8,2)
+            self.gameobject.transform.position = pygame.math.Vector2(7.888,2.5)
 
     def start(self):
         pass

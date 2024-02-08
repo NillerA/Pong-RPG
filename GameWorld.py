@@ -12,10 +12,15 @@ class GameWorld:
         pygame.init()
         self._game_objects = []
         self._colliders = []
-        self._screen = pygame.display.set_mode((1280,720))
+        self._screen = pygame.display.set_mode((1920,1080), pygame.NOFRAME)
         self._res_multiplier = self._screen.get_height() / 5
         self._res_scaler = self._screen.get_width() / 1920
         
+        self._one = False
+        self._two = False
+        self._three = False
+        self._four = False
+
         self._load_scene = 0
         self._should_load_scene = False
         self.LoadScene(0)
@@ -24,8 +29,6 @@ class GameWorld:
         self._playing = False
         self._clock = pygame.time.Clock()
 
-        
-
     def LoadScene(self, scene_index):
         self._game_objects = []
         self._colliders = []
@@ -33,22 +36,77 @@ class GameWorld:
         self._should_load_scene = False
 
         background_b = ImageBuilder()
-        background_b.build("Power Pong Background.png", pygame.math.Vector2(4.3333,2.5))
+        background_b.build("Power Pong Background.png", pygame.math.Vector2(4.444,2.5))
         self._game_objects.append(background_b.get_gameObject())
         if self._load_scene > 0:
             if not self._playing:
                 pygame.mixer.music.load("assets//In Game.wav")
                 pygame.mixer.music.play(-1)
             self._playing = True
+            ball_b = BallBuilder()
+            ball_b.build(self.Lose)
+            self._game_objects.append(ball_b.get_gameObject()) 
+
+            player_b = PlayerBuilder()
+            player_b.build(0)
+            self._game_objects.append(player_b.get_gameObject())
+            player_b.build(1)
+            self._game_objects.append(player_b.get_gameObject())
         else:
             self._playing = False
         match scene_index:
             case 0:
                 pygame.mixer.music.load("assets//Menu.wav")
                 pygame.mixer.music.play(-1)
+
                 button_b = ButtonBuilder()
-                button_b.build("Level.png", pygame.math.Vector2(4.3333,2.5), self.LevelOne)
+                button_b.build("Level.png", pygame.math.Vector2(2.944,2.5), self.LevelOne)
                 self._game_objects.append(button_b.get_gameObject())
+
+                if self._one:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level.png", pygame.math.Vector2(3.944,2.5), self.LevelTwo)
+                    self._game_objects.append(button_b.get_gameObject())
+                else:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level Locked.png", pygame.math.Vector2(3.944,2.5), self.NotUnlocked)
+                    self._game_objects.append(button_b.get_gameObject())
+
+                if self._two:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level.png", pygame.math.Vector2(4.944,2.5), self.LevelThree)
+                    self._game_objects.append(button_b.get_gameObject())
+                else:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level Locked.png", pygame.math.Vector2(4.944,2.5), self.NotUnlocked)
+                    self._game_objects.append(button_b.get_gameObject())
+
+                if self._three:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level.png", pygame.math.Vector2(5.944,2.5), self.LevelFour)
+                    self._game_objects.append(button_b.get_gameObject())
+                else:
+                    button_b = ButtonBuilder()
+                    button_b.build("Level Locked.png", pygame.math.Vector2(5.944,2.5), self.NotUnlocked)
+                    self._game_objects.append(button_b.get_gameObject())
+
+                button_b = ButtonBuilder()
+                button_b.build("Options Knap.png", pygame.math.Vector2(0.4,0.6), self.Options)
+                self._game_objects.append(button_b.get_gameObject())
+
+                button_b = ButtonBuilder()
+                button_b.build("Exit Knap2.png", pygame.math.Vector2(4.444,3.5), self.QuitGame)
+                self._game_objects.append(button_b.get_gameObject())
+
+                p_in = ImageBuilder()
+                p_in.build("P1 instruct.png",pygame.math.Vector2(0.5,2.5))
+                self._game_objects.append(p_in.get_gameObject())
+                p_in.build("P2 instruct.png",pygame.math.Vector2(8.444,2.5))
+                self._game_objects.append(p_in.get_gameObject())
+
+                tittle = ImageBuilder()
+                tittle.build("Power Pong.png",pygame.math.Vector2(4.444,1))
+                self._game_objects.append(tittle.get_gameObject())
 
                 player_b = PlayerBuilder()
                 player_b.build(0)
@@ -56,32 +114,77 @@ class GameWorld:
                 player_b.build(1)
                 self._game_objects.append(player_b.get_gameObject())
             case 1:
-                ball_b = BallBuilder()
-                ball_b.build(self.Lose)
-                self._game_objects.append(ball_b.get_gameObject()) 
-
-                player_b = PlayerBuilder()
-                player_b.build(0)
-                self._game_objects.append(player_b.get_gameObject())
-                player_b.build(1)
-                self._game_objects.append(player_b.get_gameObject())
-
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(4.333,2.5))
+                enemy_b.build(pygame.math.Vector2(4.444,2.5))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.333,1))
+                enemy_b.build(pygame.math.Vector2(4.444,1))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.333,4))
+                enemy_b.build(pygame.math.Vector2(4.444,4))
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
             case 2:
-                pass
+                enemy_b = EnemyBuilder()
+                enemy_b.build(pygame.math.Vector2(3.444,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,4))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
             case 3:
-                pass
+                enemy_b = EnemyBuilder()
+                enemy_b.build(pygame.math.Vector2(4.444,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(3.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.444,4))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
             case 4:
-                pass
+                enemy_b = EnemyBuilder()
+                enemy_b.build(pygame.math.Vector2(4.444,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(4.444,4))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                
+                enemy_b = EnemyBuilder()
+                enemy_b.build(pygame.math.Vector2(3.444,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(3.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(3.444,4))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                
+                enemy_b = EnemyBuilder()
+                enemy_b.build(pygame.math.Vector2(5.444,2.5))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,1))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,4))
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
         self.awake()
         self.start()
 
@@ -106,7 +209,7 @@ class GameWorld:
                 if event.type == pygame.QUIT:
                     self._running = False
 
-            delta_time = self._clock.tick() / 1000
+            delta_time = self._clock.tick(120) / 1000
 
             for game_object in self._game_objects[:]:
                 game_object.update(delta_time, events)
@@ -137,16 +240,42 @@ class GameWorld:
         self._should_load_scene = True
         self._load_scene = 1
     
+    def LevelTwo(self):
+        self._should_load_scene = True
+        self._load_scene = 2
+    
+    def LevelThree(self):
+        self._should_load_scene = True
+        self._load_scene = 3
+    
+    def LevelFour(self):
+        self._should_load_scene = True
+        self._load_scene = 4
+
+    def NotUnlocked(self):
+        pass
+
     def Lose(self):
         self._should_load_scene = True
-        self._load_scene = 1
     
     def Win(self):
+        match self._load_scene:
+            case 1:
+                self._one = True
+            case 2:
+                self._two = True
+            case 3:
+                self._three = True
+            case 4:
+                self._four = True
         self._should_load_scene = True
         self._load_scene = 0
 
     def Options(self):
         print("implement")
+    
+    def QuitGame(self):
+        self._running = False
     
 gw = GameWorld()
 

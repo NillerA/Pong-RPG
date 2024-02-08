@@ -60,7 +60,6 @@ class PlayerBuilder(Builder):
     
     def get_gameObject(self) -> GameObject:
         return self._gameObject
-    
         
 class EnemyBuilder(Builder):
     
