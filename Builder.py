@@ -39,7 +39,7 @@ class BackgroundBuilder(Builder):
 
 class BallBuilder(Builder):
     def build(self):
-        self._gameObject = GameObject(pygame.math.Vector2(4.33,2.5))
+        self._gameObject = GameObject(pygame.math.Vector2(2,2.5))
         self._gameObject.add_component(Ball())
         self._gameObject.add_component(SpriteRenderer("Ball.png"))
         self._gameObject.add_component(Collider())

@@ -17,6 +17,8 @@ class GameWorld:
         self._res_scaler = self._screen.get_width() / 1920
 
         self.LoadScene(0)
+        self._load_scene = 0
+        self._should_load_scene = False
 
         self._running = True
         self._clock = pygame.time.Clock()
@@ -25,7 +27,8 @@ class GameWorld:
     def LoadScene(self, scene_index):
         self._game_objects = []
         self._colliders = []
-
+        self._should_load_scene = False
+        
         match scene_index:
             case 0:
                 background_b = BackgroundBuilder()
@@ -63,7 +66,8 @@ class GameWorld:
         self.start()
 
     def LevelOne(self):
-        self.LoadScene(1)
+        self._should_load_scene = True
+        self._load_scene = 1
 
     def awake(self):
         for game_object in self._game_objects[:]:
@@ -76,13 +80,14 @@ class GameWorld:
     def start(self):
         for game_object in self._game_objects[:]:
             game_object.start()
+            game_object.draw(self._screen, self._res_multiplier, self._res_scaler)
+        pygame.display.flip()
 
     def update(self):
         while self._running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self._running = False
-            self._screen.fill("cornflowerblue")
 
             delta_time = self._clock.tick(120) / 1000
 
@@ -96,7 +101,12 @@ class GameWorld:
 
             for game_object in self._game_objects[:]:
                 game_object.draw(self._screen, self._res_multiplier, self._res_scaler)
+            
+            self._game_objects = [obj for obj in self._game_objects if not obj.is_destroyed]
+            
             pygame.display.flip()
+            if self._should_load_scene:
+                self.LoadScene(self._load_scene)
         pygame.quit()
 
 gw = GameWorld()

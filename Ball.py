@@ -47,9 +47,6 @@ class Ball(Component):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-        print(f"pixel collision enter with {other.gameobject.get_component("SpriteRenderer")._sprite_name}")
-        
-
         if other.gameobject.get_component("SpriteRenderer")._sprite_name == "Blue bar.png":
             self._right = True
             self._speed[1] = other.gameobject.transform.position.distance_to(self.gameobject.transform.position) * 10
@@ -69,4 +66,4 @@ class Ball(Component):
         
 
     def on_pixel_collision_exit(self, other):
-        print(f"pixel collision exit with {other.gameobject.get_component("SpriteRenderer")._sprite_name}")
+        pass
