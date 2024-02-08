@@ -100,6 +100,11 @@ class SpriteRenderer(Component):
         self._sprite.rect.center = self.gameobject.transform.position * res_multiplier
         screen.blit(self.scaled_image, self._sprite.rect)
 
+    def set_sprite(self, new_sprite_name):
+        self._sprite_name = new_sprite_name
+        self._sprite_image = pygame.image.load(f"Assets\\{new_sprite_name}").convert_alpha()
+        self._sprite_mask = pygame.mask.from_surface(self._sprite_image)
+
 class Collider():
     def __init__(self) -> None:
         self._other_colliders = []

@@ -3,6 +3,8 @@ from GameObject import GameObject
 from Components import SpriteRenderer
 from Player import Player
 from Enemys import BasicEnemy
+from Enemys import ShieldEnemy
+from Enemys import BossEnemy
 from Components import Collider
 from Ball import Ball
 from Button import Button
@@ -63,11 +65,21 @@ class PlayerBuilder(Builder):
         
 class EnemyBuilder(Builder):
     
-    def build(self, startpos):
+    def build(self, startpos, type):
         self._gameObject = GameObject(startpos)
-        self._gameObject.add_component(SpriteRenderer("Guy.png"))
-        self._gameObject.add_component(BasicEnemy(0))
-        self._gameObject.add_component(Collider())
+
+        component_mapping = {
+           "basic": (SpriteRenderer("Guy.png"), BasicEnemy(0), Collider()),
+           "Shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right"), Collider()),
+           "Boss" : (SpriteRenderer("Boss.png"), BossEnemy(0), Collider())
+        }
+        
+        _components = component_mapping.get(type,(None,None,None))
+
+        for component in _components:
+            if component is not None:
+                self._gameObject.add_component(component)
+
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject
