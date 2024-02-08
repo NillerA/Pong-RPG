@@ -15,7 +15,7 @@ class GameWorld:
         self._screen = pygame.display.set_mode((1280,720))
         self._res_multiplier = self._screen.get_height() / 5
         self._res_scaler = self._screen.get_width() / 1920
-
+        
         self._load_scene = 0
         self._should_load_scene = False
         self.LoadScene(0)
@@ -23,6 +23,7 @@ class GameWorld:
         self._running = True
         self._playing = False
         self._clock = pygame.time.Clock()
+
         
 
     def LoadScene(self, scene_index):
@@ -35,11 +36,16 @@ class GameWorld:
         background_b.build("Power Pong Background.png", pygame.math.Vector2(4.3333,2.5))
         self._game_objects.append(background_b.get_gameObject())
         if self._load_scene > 0:
+            if not self._playing:
+                pygame.mixer.music.load("assets//In Game.wav")
+                pygame.mixer.music.play(-1)
             self._playing = True
         else:
             self._playing = False
         match scene_index:
             case 0:
+                pygame.mixer.music.load("assets//Menu.wav")
+                pygame.mixer.music.play(-1)
                 button_b = ButtonBuilder()
                 button_b.build("Level.png", pygame.math.Vector2(4.3333,2.5), self.LevelOne)
                 self._game_objects.append(button_b.get_gameObject())
