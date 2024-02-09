@@ -138,8 +138,10 @@ class BossEnemy(Component):
             ball_position = other.gameobject.transform.position[0]
             if self._type == "Left" and self.gameobject.transform.position[0] < ball_position or self._type == "Right" and self.gameobject.transform.position[0] > ball_position:
                 self._death_sound.play()
-                self._death_callback(other.gameobject.get_component("Ball").p1Owned, 2)
-                self._life -= 1        
+                self._death_callback(other.gameobject.get_component("Ball").p1Owned, 1)
+                self._life -= 1
+                print(self._life)
                 if self._life <= 0:
+                    self._death_callback(other.gameobject.get_component("Ball").p1Owned, 4)
                     self.gameobject.destroy()
           

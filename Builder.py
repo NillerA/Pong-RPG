@@ -78,11 +78,11 @@ class EnemyBuilder(Builder):
     
     def build(self, startpos, type, death_callback):
         self._gameObject = GameObject(startpos)
-
+        shield_dir = "Left" if random.getrandbits(1) == 0 else "Right"
         component_mapping = {
            "basic": (SpriteRenderer("Guy.png"), BasicEnemy(0, death_callback), Collider()),
-           "shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right", death_callback), Collider()),
-           "boss" : (SpriteRenderer("BossLeft.png"), BossEnemy(0, death_callback), Collider())
+           "shield" : (SpriteRenderer(f"Guy Shield{shield_dir}.png"), ShieldEnemy(shield_dir, death_callback), Collider()),
+           "boss" : (SpriteRenderer(f"Boss{shield_dir}.png"), BossEnemy(shield_dir, death_callback), Collider())
         }
         
         _components = component_mapping.get(type,(None,None,None))
