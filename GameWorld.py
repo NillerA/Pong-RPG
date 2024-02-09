@@ -5,6 +5,7 @@ from Builder import ImageBuilder
 from Builder import PlayerBuilder
 from Builder import BallBuilder
 from Builder import EnemyBuilder
+from Builder import ScoreBuilder
 
 class GameWorld:
 
@@ -42,6 +43,17 @@ class GameWorld:
             if not self._playing:
                 pygame.mixer.music.load("assets//In Game.wav")
                 pygame.mixer.music.play(-1)
+
+            sc_test = ScoreBuilder()
+            sc_test.build(pygame.math.Vector2(2.444, 0.5), 100)
+            self._p1_score = sc_test.get_gameObject()
+            self._game_objects.append(self._p1_score)
+            sc_test.build(pygame.math.Vector2(6.444, 0.5), 100)
+            self._p2_score = sc_test.get_gameObject()
+            self._game_objects.append(self._p2_score)
+            self._p1_current_score = 0
+            self._p2_current_score = 0
+
             self._playing = True
             ball_b = BallBuilder()
             ball_b.build(self.Lose)
@@ -57,6 +69,7 @@ class GameWorld:
             self._playing = False
         match scene_index:
             case 0:
+
                 pygame.mixer.music.load("assets//Menu.wav")
                 pygame.mixer.music.play(-1)
 
@@ -124,72 +137,72 @@ class GameWorld:
                 self._game_objects.append(menu_btn.get_gameObject())
             case 2:
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,4), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,4), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
             case 3:
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(3.444,2.5), "shield")
+                enemy_b.build(pygame.math.Vector2(3.444,2.5), "shield", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(5.444,4), "shield")
+                enemy_b.build(pygame.math.Vector2(5.444,4), "shield", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
             case 4:
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(5.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(5.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(3.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(3.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,4), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,4), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
             case 5:
                 enemy_b = EnemyBuilder()
-                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,4), "basic")
-                self._game_objects.append(enemy_b.get_gameObject())
-                self._enemies.append(enemy_b.get_gameObject())
-                
-                enemy_b.build(pygame.math.Vector2(3.444,2.5), "basic")
-                self._game_objects.append(enemy_b.get_gameObject())
-                self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(3.444,1), "basic")
-                self._game_objects.append(enemy_b.get_gameObject())
-                self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(3.444,4), "basic")
+                enemy_b.build(pygame.math.Vector2(4.444,4), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
                 
-                enemy_b.build(pygame.math.Vector2(5.444,2.5), "basic")
+                enemy_b.build(pygame.math.Vector2(3.444,2.5), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(5.444,1), "basic")
+                enemy_b.build(pygame.math.Vector2(3.444,1), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(5.444,4), "basic")
+                enemy_b.build(pygame.math.Vector2(3.444,4), "basic", self.Add_Score)
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                
+                enemy_b.build(pygame.math.Vector2(5.444,2.5), "basic", self.Add_Score)
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,1), "basic", self.Add_Score)
+                self._game_objects.append(enemy_b.get_gameObject())
+                self._enemies.append(enemy_b.get_gameObject())
+                enemy_b.build(pygame.math.Vector2(5.444,4), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
         self.awake()
@@ -264,6 +277,14 @@ class GameWorld:
 
     def NotUnlocked(self):
         pass
+
+    def Add_Score(self, playernumber, amount):
+        if playernumber:
+            self._p1_current_score += amount
+            self._p1_score.get_component("TextRenderer").settext(f"P1: {self._p1_current_score}")
+        else:
+            self._p2_current_score += amount
+            self._p2_score.get_component("TextRenderer").settext(f"P2: {self._p2_current_score}")
 
     def Lose(self):
         self._ball.destroy()

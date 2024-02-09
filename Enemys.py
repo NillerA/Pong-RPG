@@ -3,12 +3,13 @@ from Components import Component
 import random
 
 class BasicEnemy(Component):
-    def __init__(self, type) -> None:
+    def __init__(self, type, death_callback) -> None:
         super().__init__()
         self._cooldown = 8
         self._speed = -2
         self._timer = 0
         self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
+        self._death_callback = death_callback
     
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -37,16 +38,18 @@ class BasicEnemy(Component):
     def on_pixel_collision_enter(self, other, collision_mask):
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
           self._death_sound.play()
+          self._death_callback(other.gameobject.get_component("Ball").p1Owned, 1)
           self.gameobject.destroy()
 
 class ShieldEnemy(Component):
-    def __init__(self, type) -> None:
+    def __init__(self, type, death_callback) -> None:
         super().__init__()
         self._cooldown = 5
         self._speed = -2
         self._timer = 0
         self._type = type
         self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
+        self._death_callback = death_callback
     
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -86,6 +89,7 @@ class ShieldEnemy(Component):
 
             if self._type == "Left" and self.gameobject.transform.position[0] < ball_position or self._type == "Right" and self.gameobject.transform.position[0] > ball_position:
                 self._death_sound.play()
+                self._death_callback(other.gameobject.get_component("Ball").p1Owned, 2)
                 self.gameobject.destroy()
 
 class BossEnemy(Component):
