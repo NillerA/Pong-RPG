@@ -125,19 +125,21 @@ class BossEnemy(Component):
                 self._timer -= self._cooldown
                 self.ChangeType()
 
-        if self._life <= 0:
-            self.gameobject.destroy()
-
-        def ChangeType(self):
-            sprite_renderer = self.gameobject.get_component("SpriteRenderer")
-            sprite_name = f"Boss{self._type}.png"
-            sprite_renderer.set_sprite(sprite_name)
+    def ChangeType(self):
+        sprite_renderer = self.gameobject.get_component("SpriteRenderer")
+        sprite_name = f"Boss{self._type}.png"
+        sprite_renderer.set_sprite(sprite_name)
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
 
     def on_pixel_collision_enter(self, other, collision_mask):
-       
-        if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
-          self._death_sound.play()
-          self._life -= 1
+       if other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png":
+            ball_position = other.gameobject.transform.position[0]
+            if self._type == "Left" and self.gameobject.transform.position[0] < ball_position or self._type == "Right" and self.gameobject.transform.position[0] > ball_position:
+                self._death_sound.play()
+                self._death_callback(other.gameobject.get_component("Ball").p1Owned, 2)
+                self._life -= 1        
+                if self._life <= 0:
+                    self.gameobject.destroy()
+          
