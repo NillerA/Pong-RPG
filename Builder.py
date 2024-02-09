@@ -8,6 +8,7 @@ from Enemys import BossEnemy
 from Components import Collider
 from Ball import Ball
 from Button import Button
+from TextRenderer import TextRenderer
 import pygame
 import random
 from Spacebar import Spacebar
@@ -75,12 +76,12 @@ class PlayerBuilder(Builder):
         
 class EnemyBuilder(Builder):
     
-    def build(self, startpos, type):
+    def build(self, startpos, type, death_callback):
         self._gameObject = GameObject(startpos)
 
         component_mapping = {
-           "basic": (SpriteRenderer("Guy.png"), BasicEnemy(0), Collider()),
-           "shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right"), Collider()),
+           "basic": (SpriteRenderer("Guy.png"), BasicEnemy(0, death_callback), Collider()),
+           "shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right", death_callback), Collider()),
            "boss" : (SpriteRenderer("Boss.png"), BossEnemy(0), Collider())
         }
         
@@ -89,6 +90,17 @@ class EnemyBuilder(Builder):
         for component in _components:
             if component is not None:
                 self._gameObject.add_component(component)
+
+
+    def get_gameObject(self) -> GameObject:
+        return self._gameObject
+
+class ScoreBuilder(Builder):
+    
+    def build(self, startpos, font_size):
+        self._gameObject = GameObject(startpos)
+
+        self._gameObject.add_component(TextRenderer(font_size))
 
 
     def get_gameObject(self) -> GameObject:
