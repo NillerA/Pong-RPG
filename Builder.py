@@ -70,8 +70,8 @@ class EnemyBuilder(Builder):
 
         component_mapping = {
            "basic": (SpriteRenderer("Guy.png"), BasicEnemy(0), Collider()),
-           "Shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right"), Collider()),
-           "Boss" : (SpriteRenderer("Boss.png"), BossEnemy(0), Collider())
+           "shield" : (SpriteRenderer("Guy ShieldLeft.png"), ShieldEnemy("Left" if random.getrandbits(1) == 0 else "Right"), Collider()),
+           "boss" : (SpriteRenderer("Boss.png"), BossEnemy(0), Collider())
         }
         
         _components = component_mapping.get(type,(None,None,None))
