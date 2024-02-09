@@ -98,6 +98,7 @@ class BossEnemy(Component):
         self._cooldown = 3
         self._speed = 1
         self._timer = 0
+        self._type = type
         self._life = 4
         self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
     
@@ -118,11 +119,18 @@ class BossEnemy(Component):
             self._speed *= -1
         
         if(self._timer >= self._cooldown):
+                self._type = random.choice(["Left","Right"])
                 self._speed *= random.choice([-1, 1])
                 self._timer -= self._cooldown
+                self.ChangeType()
 
         if self._life <= 0:
             self.gameobject.destroy()
+
+        def ChangeType(self):
+            sprite_renderer = self.gameobject.get_component("SpriteRenderer")
+            sprite_name = f"Boss{self._type}.png"
+            sprite_renderer.set_sprite(sprite_name)
         
 
     def draw(self, screen, res_multiplier, res_scaler):
@@ -133,3 +141,4 @@ class BossEnemy(Component):
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
           self._death_sound.play()
           self._life -= 1
+          
