@@ -5,7 +5,7 @@ class TextRenderer(Component):
     def __init__(self, font_size) -> None:
         super().__init__()
         self.font = pygame.font.SysFont(None, font_size)
-        self.settext("p1: 0")
+        self.settext("text")
     
     def awake(self, game_world):
         pass

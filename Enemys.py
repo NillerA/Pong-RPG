@@ -93,7 +93,7 @@ class ShieldEnemy(Component):
                 self.gameobject.destroy()
 
 class BossEnemy(Component):
-    def __init__(self, type) -> None:
+    def __init__(self, type, death_callback) -> None:
         super().__init__()
         self._cooldown = 3
         self._speed = 1
@@ -101,6 +101,7 @@ class BossEnemy(Component):
         self._type = type
         self._life = 4
         self._death_sound = pygame.mixer.Sound("Assets//Enemy Death.mp3")
+        self._death_callback = death_callback
     
     def awake(self, game_world):
         collider = self.gameobject.get_component("Collider")
@@ -131,7 +132,6 @@ class BossEnemy(Component):
             sprite_renderer = self.gameobject.get_component("SpriteRenderer")
             sprite_name = f"Boss{self._type}.png"
             sprite_renderer.set_sprite(sprite_name)
-        
 
     def draw(self, screen, res_multiplier, res_scaler):
         pass
@@ -141,4 +141,3 @@ class BossEnemy(Component):
         if(other.gameobject.get_component("SpriteRenderer")._sprite_name == "Ball.png"):
           self._death_sound.play()
           self._life -= 1
-          

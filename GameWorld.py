@@ -48,12 +48,15 @@ class GameWorld:
             sc_test = ScoreBuilder()
             sc_test.build(pygame.math.Vector2(2.444, 0.5), 100)
             self._p1_score = sc_test.get_gameObject()
+            self._p1_score.get_component("TextRenderer").settext("P1: 0")
             self._game_objects.append(self._p1_score)
             sc_test.build(pygame.math.Vector2(6.444, 0.5), 100)
             self._p2_score = sc_test.get_gameObject()
+            self._p2_score.get_component("TextRenderer").settext("P2: 0")
             self._game_objects.append(self._p2_score)
             self._p1_current_score = 0
             self._p2_current_score = 0
+            self._won = False
 
             self._playing = True
             ball_b = BallBuilder()
@@ -186,7 +189,7 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
-                enemy_b.build(pygame.math.Vector2(4.444,1), "basic", self.Add_Score)
+                enemy_b.build(pygame.math.Vector2(4.444,1), "boss", self.Add_Score)
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
                 enemy_b.build(pygame.math.Vector2(4.444,4), "basic", self.Add_Score)
@@ -249,7 +252,7 @@ class GameWorld:
                     collider1.collision_check(collider2)
             
             if self._playing:
-                if self._enemies.__len__() is 0:
+                if self._enemies.__len__() is 0 and not self._won:
                     self.Win()
 
             for game_object in self._game_objects[:]:
@@ -300,6 +303,14 @@ class GameWorld:
             self._p2_current_score += amount
             self._p2_score.get_component("TextRenderer").settext(f"P2: {self._p2_current_score}")
 
+    def Restart(self):
+        self._should_load_scene = True
+
+
+    def NextLevel(self):
+        self._load_scene += 1
+        self._should_load_scene = True
+
     def Lose(self):
         self._ball.destroy()
 
@@ -314,8 +325,13 @@ class GameWorld:
         menu_btn = ButtonBuilder()
         menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu, True)
         self._game_objects.append(menu_btn.get_gameObject())
-    
+        
+        menu_btn = ButtonBuilder()
+        menu_btn.build("Restart Knap.png", pygame.math.Vector2(3.444,3.5), self.Restart, True)
+        self._game_objects.append(menu_btn.get_gameObject())
+        
     def Win(self):
+        self._won = True
         match self._load_scene:
             case 2:
                 self._one = True
@@ -326,6 +342,8 @@ class GameWorld:
             case 5:
                 self._four = True
         
+        print("WIN")
+
         self._ball.destroy()
 
         panel = ImageBuilder()
@@ -338,6 +356,14 @@ class GameWorld:
 
         menu_btn = ButtonBuilder()
         menu_btn.build("Exit Knap.png", pygame.math.Vector2(4.444,3.5), self.Menu, True)
+        self._game_objects.append(menu_btn.get_gameObject())
+        
+        menu_btn = ButtonBuilder()
+        menu_btn.build("Restart Knap.png", pygame.math.Vector2(3.444,3.5), self.Restart, True)
+        self._game_objects.append(menu_btn.get_gameObject())
+        
+        menu_btn = ButtonBuilder()
+        menu_btn.build("Next Knap.png", pygame.math.Vector2(5.444,3.5), self.NextLevel, True)
         self._game_objects.append(menu_btn.get_gameObject())
 
     def Options(self):
