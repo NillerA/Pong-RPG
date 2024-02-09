@@ -5,6 +5,7 @@ from Builder import ImageBuilder
 from Builder import PlayerBuilder
 from Builder import BallBuilder
 from Builder import EnemyBuilder
+from Builder import SpaceBarBuilder
 
 class GameWorld:
 
@@ -133,6 +134,8 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(4.444,4), "basic")
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
+
+                self.StartTheGame()
             case 3:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(3.444,2.5), "shield")
@@ -144,6 +147,8 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(5.444,4), "shield")
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
+
+                self.StartTheGame()
             case 4:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic")
@@ -161,6 +166,8 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(4.444,4), "basic")
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
+
+                self.StartTheGame()
             case 5:
                 enemy_b = EnemyBuilder()
                 enemy_b.build(pygame.math.Vector2(4.444,2.5), "basic")
@@ -192,6 +199,8 @@ class GameWorld:
                 enemy_b.build(pygame.math.Vector2(5.444,4), "basic")
                 self._game_objects.append(enemy_b.get_gameObject())
                 self._enemies.append(enemy_b.get_gameObject())
+
+                self.StartTheGame()
         self.awake()
         self.start()
 
@@ -264,6 +273,12 @@ class GameWorld:
 
     def NotUnlocked(self):
         pass
+
+    def StartTheGame(self):
+        BarBuilder = SpaceBarBuilder()
+        BarBuilder.build()
+        self._game_objects.append(BarBuilder.get_gameObject())
+
 
     def Lose(self):
         self._ball.destroy()

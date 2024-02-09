@@ -10,6 +10,7 @@ from Ball import Ball
 from Button import Button
 import pygame
 import random
+from Spacebar import Spacebar
 
 class Builder(ABC):
 
@@ -45,6 +46,15 @@ class BallBuilder(Builder):
         self._gameObject.add_component(Ball(lose_callback))
         self._gameObject.add_component(SpriteRenderer("Ball.png"))
         self._gameObject.add_component(Collider())
+
+    def get_gameObject(self) -> GameObject:
+        return self._gameObject
+
+class SpaceBarBuilder(Builder):
+    def build(self):
+        self._gameObject = GameObject(pygame.math.Vector2(4.44,2.5))
+        self._gameObject.add_component(Spacebar())
+        self._gameObject.add_component(SpriteRenderer("Spacebar.png"))
 
     def get_gameObject(self) -> GameObject:
         return self._gameObject
